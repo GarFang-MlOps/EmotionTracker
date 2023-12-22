@@ -2,12 +2,13 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.egg*
 # C extensions
 *.so
-
+models/
 # Distribution / packaging
 .Python
+wandb/
 build/
 develop-eggs/
 dist/

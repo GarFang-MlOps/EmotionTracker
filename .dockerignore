@@ -1,3 +1,6 @@
 docs/
 data/
 venv/
+*.egg*
+models/
+wandb/

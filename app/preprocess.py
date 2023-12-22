@@ -12,4 +12,3 @@ def get_face(img):
         x, y, w, h = sorted(faces_rect, reverse=False, key=lambda x: (x[2] - x[0]) * (x[3] - x[1]))[0]
         img = cv2.resize(gray_img[y:y + h, x:x + w], (48, 48), interpolation=cv2.INTER_LANCZOS4)
         return torch.FloatTensor(img / 255).unsqueeze(0).unsqueeze(0)
-

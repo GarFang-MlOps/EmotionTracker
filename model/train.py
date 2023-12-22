@@ -1,7 +1,7 @@
 import argparse
 import os.path
 import random
-
+from pytorch_metric_learning import samplers
 import numpy as np
 import torch
 
@@ -30,7 +30,9 @@ def run_training(task_name: str, data_dir: str, batch_size: int = 64, num_epochs
     train_dataset = EmotionDataset(os.path.join(data_dir, "train.pkl"))
     test_dataset = EmotionDataset(os.path.join(data_dir, "test.pkl"))
 
-    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False,
+                                  sampler=samplers.MPerClassSampler(train_dataset.targets_sampler,
+                                                                    8, None, len(train_dataset)))
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
     loss = CrossEntropyLoss()

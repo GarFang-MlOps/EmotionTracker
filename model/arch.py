@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from torch.nn import Conv2d, Module, ReLU, BatchNorm2d
 from torch.nn.modules.utils import _pair
 from model.config import CLASS_MAPPING
+from torchvision.models.mobilenetv3 import mobilenet_v3_small
 
 
 class SplAtConv2d(Module):
@@ -217,15 +218,9 @@ class ResNet(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0], is_first=False)
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        if dilated or dilation == 4:
-            self.layer3 = self._make_layer(block, 256, layers[2], stride=1, dilation=2)
-        elif dilation == 2:
-            self.layer3 = self._make_layer(block, 256, layers[2], stride=2, dilation=1)
-        else:
-            self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(256 * block.expansion, len(CLASS_MAPPING))
+        self.fc = nn.Linear(128 * block.expansion, len(CLASS_MAPPING))
 
     def _make_layer(self, block, planes, blocks, stride=1, dilation=1, is_first=True):
         downsample = None
@@ -308,11 +303,7 @@ class ResNet(nn.Module):
         x = self.maxpool(x)
 
         x = self.layer1(x)
-        x = F.dropout2d(x, p=0.2, training=self.training)
         x = self.layer2(x)
-        x = F.dropout2d(x, p=0.3, training=self.training)
-        x = self.layer3(x)
-        x = F.dropout2d(x, p=0.4, training=self.training)
         x = self.avgpool(x)
         x = torch.flatten(x, 1)
         x = self.fc(x)
@@ -322,7 +313,7 @@ class ResNet(nn.Module):
 def resnest_cropped():
     return ResNet(
         Bottleneck,
-        [1, 2, 3],
+        [1, 1],
         radix=2,
         groups=1,
         bottleneck_width=64,

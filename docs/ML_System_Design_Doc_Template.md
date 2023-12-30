@@ -1,6 +1,8 @@
 # ML System Design Doc - [RU]
 ## Дизайн ML системы - \<Детектор выгорания, отслеживание динамики негативных эмоций\> \<0.1\>
-![image](https://github.com/GarFang-MlOps/EmotionTracker/blob/main//docs/imgs/1-s2.0-S2665963823000970-gr4.jpg)
+<p align="center">
+  <img width="704" height="205" src="https://github.com/GarFang-MlOps/EmotionTracker/blob/main//docs/imgs/1-s2.0-S2665963823000970-gr4.jpg">
+</p>
 
 *Шаблон ML System Design Doc от телеграм-канала [Reliable ML](https://t.me/reliable_ml)*   
 

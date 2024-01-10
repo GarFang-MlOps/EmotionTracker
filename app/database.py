@@ -31,3 +31,12 @@ async def extend_emotion(user_id: int, emotion_type: str):
     cur.execute(f"INSERT INTO user_history (user_id, emotion, date) "
                 f"VALUES ({user_id}, '{emotion_type}', '{date_time}')")
     db.commit()
+
+
+async def emotion_history(user_id: int, date_range: str = '5 year'):
+    emotion = cur.execute(f"SELECT emotion, COUNT(emotion) AS emotion_count FROM user_history "
+                          f"WHERE user_id == {user_id} and DATE(date) >= DATE('now', '-{date_range}') "
+                          f"GROUP BY emotion "
+                          f"ORDER BY emotion").fetchall()
+
+    return emotion

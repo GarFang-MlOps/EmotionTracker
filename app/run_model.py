@@ -3,7 +3,6 @@ import numpy as np
 
 from app.preprocess import get_face
 from model.arch import resnest_cropped
-from model.config import CLASS_MAPPING
 
 
 async def model_evaluate(img):

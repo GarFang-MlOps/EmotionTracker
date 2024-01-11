@@ -1,10 +1,9 @@
 import cv2
 import torch
 import numpy as np
-from matplotlib import pyplot as plt
 
 
-async def get_face(img: np.array):
+async def get_face(img):
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     haar_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     faces_rect = haar_cascade.detectMultiScale(gray_img, 1.1, 9)

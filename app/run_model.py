@@ -6,12 +6,12 @@ from model.arch import resnest_cropped
 from model.config import CLASS_MAPPING
 
 
-async def model_evaluate(image: np.array):
+async def model_evaluate(img):
     model = resnest_cropped()
     model.load_state_dict(torch.load("../model/model_best.pkl", map_location=torch.device('cpu'))["state"])
     model.eval()
 
-    face = await get_face(image)
+    face = await get_face(img)
 
     if face is None:
         return None

@@ -47,18 +47,20 @@ async def emotion_recognition(message: types.Message):
 
     await message.answer(get_text(emotion_class))
     if emotion_class is not None:
-        print(emotion_class)
         await db.extend_emotion(message.from_user.id, emotion_map[emotion_class])
 
 
 @dp.message_handler(text='История наблюдений')
 async def emotion_history(message: types.Message):
     emotion_info = await db.emotion_history(message.from_user.id)
-    await message.answer(
-        f'{emotion_history_text(emotion_info)}\n'
-        f'Вывести историю за последние:',
-        reply_markup=kb.emotion_history
-    )
+    if len(emotion_info) == 0:
+        await message.answer('Наблюдения не найдены', reply_markup=kb.main)
+    else:
+        await message.answer(
+            f'{emotion_history_text(emotion_info)}\n'
+            f'Вывести историю за последние:',
+            reply_markup=kb.emotion_history
+        )
 
 
 @dp.callback_query_handler()

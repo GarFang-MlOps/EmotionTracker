@@ -1,0 +1,10 @@
+version: '3.10'
+services:
+  bot:
+    build: ..
+    command: python app/bot.py
+    volumes:
+      - ..:/bot
+    ports:
+      - 33066:3306
+    restart: always
